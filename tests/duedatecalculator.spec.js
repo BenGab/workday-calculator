@@ -3,7 +3,7 @@ var dueDateCalculator = require('../src/duedatecalculator/duedatecalculator');
 var timeroundBuilder = require('../src/timearound/timearoundbuilder');
 
 describe('DueDateCalculator tests', function() {
-    describe('method tpye tests', function() {
+    describe('method type tests', function() {
         it('should have init method', function() {
             var type = typeof dueDateCalculator.init;
             expect(type).to.equal('function');
@@ -11,6 +11,11 @@ describe('DueDateCalculator tests', function() {
 
         it('should have calculateDueDate method', function() {
             var type = typeof dueDateCalculator.calculateDueDate;
+            expect(type).to.equal('function');
+        });
+
+        it('should have setAllowWorkOnSaturday method', function() {
+            var type = typeof dueDateCalculator.setAllowWorkOnSaturday;
             expect(type).to.equal('function');
         });
     });
@@ -53,6 +58,21 @@ describe('DueDateCalculator tests', function() {
             expect(dueDate.getDate()).to.equal(expectedDueDate.getDate());
             expect(dueDate.getMonth()).to.equal(expectedDueDate.getMonth());
             expect(dueDate.getFullYear()).to.equal(expectedDueDate.getFullYear());
+        });
+
+        it('should complete on the work on saturday when is allowed', function() {
+            var fromDate = new Date(2016, 9, 21, 9);
+            var timearound = timeroundBuilder.days(1).hours(3).build();
+            var expectedDueDate = new Date(2016, 9, 22, 12, 0 , 0, 0);
+
+            dueDateCalculator.setAllowWorkOnSaturday(true);
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, timearound);
+
+            expect(dueDate.getHours()).to.equal(expectedDueDate.getHours());
+            expect(dueDate.getDate()).to.equal(expectedDueDate.getDate());
+            expect(dueDate.getMonth()).to.equal(expectedDueDate.getMonth());
+            expect(dueDate.getFullYear()).to.equal(expectedDueDate.getFullYear());
+            dueDateCalculator.setAllowWorkOnSaturday(false);
         });
     });
 });
