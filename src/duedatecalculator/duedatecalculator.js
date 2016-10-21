@@ -1,22 +1,40 @@
 module.exports = function() {
     var _startingHour = 9;
     var _finishingHour = 17;
+    var _hoursUntilNextWorkDay = 16;
+    var _sundayId = 0;
+    var _saturdayId = 6;
 
     function _calculateDueDate(dateFrom, timearoundHours) {
         if(timearoundHours <= 0)  {
-            //return dateFrom.getHours();
             return typeof dateFrom;
         }
 
-        let currentHourDateFrom = dateFrom.getHours() + 1;
-        let remainingHourFromDay = _finishingHour - currentHourDateFrom;
-        let nextTimeAround = timearoundHours - remainingHourFromDay;
-        let nextHours = dateFrom.getHours() + remainingHourFromDay;
-        let nextDay = dateFrom.getDate();
-        let nextMonth = dateFrom.getMonth() + 1;
-        let nextYear = dateFrom.getFullYear();
+        while(timearoundHours > 0) {
+            let currentHourDateFrom = dateFrom.getHours();
+            let remainingHourFromDay = _finishingHour - currentHourDateFrom;
 
-        return _calculateDueDate(new Date(nextYear, nextMonth, nextDay, nextHours), nextTimeAround);
+            if(dateFrom.getHours() === _finishingHour) {
+                dateFrom.setHours(dateFrom.getHours() + _hoursUntilNextWorkDay);
+            }
+
+            let dayOfTheWeekId = dateFrom.getDay();
+
+            if(dayOfTheWeekId === _sundayId || dayOfTheWeekId === _saturdayId) {
+                let dayDiff = dayOfTheWeekId === _saturdayId ? 2 : 1;
+                dateFrom.setDate(dateFrom.getDate() + dayDiff);
+            }
+
+            if(timearoundHours < remainingHourFromDay) {
+                dateFrom.setHours(dateFrom.getHours() + timearoundHours);
+                return dateFrom;
+            }
+
+            timearoundHours = timearoundHours - remainingHourFromDay;
+            dateFrom.setHours(dateFrom.getHours() + remainingHourFromDay);
+        }
+
+        return dateFrom;
     }
 
     function _init(startingHour, finishingHour) {
@@ -24,8 +42,13 @@ module.exports = function() {
         _finishingHour = finishingHour;
     }
 
+    function _setAllowWorkOnSaturday(isAllowed) {
+        _saturdayId = isAllowed ? -1 : 6;
+    }
+
     return {
         init: _init,
-        calculateDueDate: _calculateDueDate
+        calculateDueDate: _calculateDueDate,
+        setAllowWorkOnSaturday: _setAllowWorkOnSaturday,
     }
 }();

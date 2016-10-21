@@ -23,7 +23,32 @@ describe('DueDateCalculator tests', function() {
 
             var dueDate = dueDateCalculator.calculateDueDate(fromDate, timearound);
 
-            expect(dueDate).to.equal(expectedDueDate.getHours());
+            expect(dueDate.getHours()).to.equal(expectedDueDate.getHours());
+            expect(dueDate.getDate()).to.equal(expectedDueDate.getDate());
+            expect(dueDate.getMonth()).to.equal(expectedDueDate.getMonth());
+            expect(dueDate.getFullYear()).to.equal(expectedDueDate.getFullYear());
+        });
+
+        it('should calculate expected dueDate, when the timearound one and half day', function() {
+            var fromDate = new Date(2016, 9, 20, 9);
+            var timearound = timeroundBuilder.days(1).hours(3).build();
+            var expectedDueDate = new Date(2016, 9, 21, 12, 0 , 0, 0);
+
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, timearound);
+
+            expect(dueDate.getHours()).to.equal(expectedDueDate.getHours());
+            expect(dueDate.getDate()).to.equal(expectedDueDate.getDate());
+            expect(dueDate.getMonth()).to.equal(expectedDueDate.getMonth());
+            expect(dueDate.getFullYear()).to.equal(expectedDueDate.getFullYear());
+        });
+
+        it('should calculate expectedDueDate when it forwards next week', function() {
+            var fromDate = new Date(2016, 9, 21, 9);
+            var timearound = timeroundBuilder.days(1).hours(3).build();
+            var expectedDueDate = new Date(2016, 9, 24, 12, 0 , 0, 0);
+
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, timearound);
+
             expect(dueDate.getHours()).to.equal(expectedDueDate.getHours());
             expect(dueDate.getDate()).to.equal(expectedDueDate.getDate());
             expect(dueDate.getMonth()).to.equal(expectedDueDate.getMonth());
