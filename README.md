@@ -8,3 +8,6 @@ npm install
 <pre>
 npm run test
 </pre>
+<pre>
+node index.js
+</pre>
