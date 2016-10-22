@@ -6,6 +6,12 @@ module.exports = function() {
     var _saturdayId = 6;
 
     function _calculateDueDate(dateFrom, timearoundHours) {
+        if(isNaN(timearoundHours) 
+        || typeof timearoundHours !== 'number'
+        || !(dateFrom instanceof Date)) {
+            return 'The given date parameter must be Date type and timearound must be number';
+        }
+
         if(timearoundHours <= 0)  {
             return typeof dateFrom;
         }

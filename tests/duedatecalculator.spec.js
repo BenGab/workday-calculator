@@ -100,5 +100,37 @@ describe('DueDateCalculator tests', function() {
             expect(dueDate.getMonth()).to.equal(expectedDueDate.getMonth());
             expect(dueDate.getFullYear()).to.equal(expectedDueDate.getFullYear());
         });
+
+        it('should return errormessage when timearound is not number', function() {
+            var fromDate = new Date(2016, 9, 20, 12);
+            var expectedErrorMessage = 'The given date parameter must be Date type and timearound must be number';
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, 'timearound');
+
+            expect(dueDate).to.equal(expectedErrorMessage);
+        });
+
+        it('should return errormessage when timearound is string', function() {
+            var fromDate = new Date(2016, 9, 20, 12);
+            var expectedErrorMessage = 'The given date parameter must be Date type and timearound must be number';
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, '10');
+
+            expect(dueDate).to.equal(expectedErrorMessage);
+        });
+
+        it('should return errormessage when date is not date', function() {
+            var fromDate = 'new Date(2016, 9, 20, 12)';
+            var expectedErrorMessage = 'The given date parameter must be Date type and timearound must be number';
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, 10);
+
+            expect(dueDate).to.equal(expectedErrorMessage);
+        });
+
+        it('should return errormessage when both parameters invalid', function() {
+            var fromDate = 'new Date(2016, 9, 20, 12)';
+            var expectedErrorMessage = 'The given date parameter must be Date type and timearound must be number';
+            var dueDate = dueDateCalculator.calculateDueDate(fromDate, '10');
+
+            expect(dueDate).to.equal(expectedErrorMessage);
+        });
     });
 });
