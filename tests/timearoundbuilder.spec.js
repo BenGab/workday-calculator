@@ -29,6 +29,16 @@ describe('TimearoundBuilder tests', function() {
             var timearound = timearoundBuilder.hours(10);
             expect(timearound.build()).to.equal(10); 
         });
+
+        it('should not set hours when the given number is NaN', function() {
+            var timearound = timearoundBuilder.hours('sa10');
+            expect(timearound.build()).to.equal(0); 
+        });
+
+        it('should not set hours when the given number is not number type', function() {
+            var timearound = timearoundBuilder.hours('10');
+            expect(timearound.build()).to.equal(0); 
+        });
     });
 
     describe('days method tests', function() {
@@ -36,12 +46,32 @@ describe('TimearoundBuilder tests', function() {
             var timearound = timearoundBuilder.days(2);
             expect(timearound.build()).to.equal(16);
         });
+
+        it('should not set days when the given number is NaN', function() {
+            var timearound = timearoundBuilder.days('sa10');
+            expect(timearound.build()).to.equal(0); 
+        });
+
+        it('should not set days when the given number is not number type', function() {
+            var timearound = timearoundBuilder.days('10');
+            expect(timearound.build()).to.equal(0); 
+        });
     });
 
     describe('weeks method tests', function() {
         it('should set workhours by given weeks', function() {
             var timearound = timearoundBuilder.weeks(1);
             expect(timearound.build()).to.equal(40);
+        });
+
+        it('should not set weeks when the given number is NaN', function() {
+            var timearound = timearoundBuilder.weeks('sa10');
+            expect(timearound.build()).to.equal(0); 
+        });
+
+        it('should not set weeks when the given number is not number type', function() {
+            var timearound = timearoundBuilder.weeks('10');
+            expect(timearound.build()).to.equal(0); 
         });
     });
 
